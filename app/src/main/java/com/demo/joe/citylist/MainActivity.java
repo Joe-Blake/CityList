@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.demo.joe.citylist.bean.CitiesBean;
 import com.demo.joe.citylist.view.QuickIndexView;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,9 +47,23 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         Gson gson = new Gson();
-        CitiesBean citiesBean = gson.fromJson(Data.citiesJson, CitiesBean.class);
+        CitiesBean citiesBean = gson.fromJson(Data.data, CitiesBean.class);
 
-        adapter = new CitiesAdapter(this,citiesBean.getOpenCity());
+        /**
+         * setWords by CitiesBean
+         */
+        List<String> sidebar = new ArrayList<String>();
+        sidebar.add("#");
+        for (CitiesBean.DataEntity.OpenCityEntity city: citiesBean.getData().getOpenCity()
+             ) {
+            sidebar.add(city.getIndex());
+        }
+        String[] s = null;
+        quickIndexView.setWords(sidebar.toArray(new String[sidebar.size()]));
+        //quickIndexView.setWords(s);
+
+
+        adapter = new CitiesAdapter(this,citiesBean.getData().getOpenCity());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
@@ -56,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 mSuspensionHeight = mSuspensionBar.getHeight();
-
             }
 
             @Override
@@ -104,24 +119,25 @@ public class MainActivity extends AppCompatActivity {
         quickIndexView.setOnIndexChangeListener(new QuickIndexView.OnIndexChangeListener() {
             @Override
             public void onIndexChange(String words) {
-                if(words.equals("A")){
+                if(words.equals("#")){
                     LinearLayoutManager llm = (LinearLayoutManager) recyclerView
                             .getLayoutManager();
                     llm.scrollToPositionWithOffset(0, 0);
+                    mCurrentPosition = 0;
                     return;
                 }
-                List<CitiesBean.OpenCityEntity> datas = adapter.getData();
-                if(datas!=null && datas.size()>0) {
+                List<CitiesBean.DataEntity.OpenCityEntity> datas = adapter.getData();
+                if (datas != null && datas.size() > 0) {
                     int count = 0;
                     for (int i = 0; i < datas.size(); i++) {
-                        CitiesBean.OpenCityEntity datasBean = datas.get(i);
-                        if(datasBean.getIndex().equals(words)){
+                        CitiesBean.DataEntity.OpenCityEntity datasBean = datas.get(i);
+                        if (datasBean.getIndex().equals(words)) {
                             LinearLayoutManager llm = (LinearLayoutManager) recyclerView
                                     .getLayoutManager();
-                            llm.scrollToPositionWithOffset(count+1, 0);
+                            llm.scrollToPositionWithOffset(count + 1, 0);
                             return;
                         }
-                        count+=datasBean.getCitySet().size()+1;
+                        count += datasBean.getCitySet().size() + 1;
                     }
                 }
             }

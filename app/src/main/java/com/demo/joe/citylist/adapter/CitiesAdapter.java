@@ -19,18 +19,18 @@ import java.util.List;
 public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Context context;
-    private List<CitiesBean.OpenCityEntity> cities;
+    private List<CitiesBean.DataEntity.OpenCityEntity> cities;
 
     public final static int HEAD = 0;
     public final static int WORD = 1;
     public final static int CITY = 2;
 
-    public CitiesAdapter(Context context, List<CitiesBean.OpenCityEntity> cities){
+    public CitiesAdapter(Context context, List<CitiesBean.DataEntity.OpenCityEntity> cities){
         this.context = context;
         this.cities = cities;
     }
 
-    public List<CitiesBean.OpenCityEntity> getData() {
+    public List<CitiesBean.DataEntity.OpenCityEntity> getData() {
         return cities;
     }
 
@@ -41,7 +41,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return count;
         }
         count += cities.size();
-        for(CitiesBean.OpenCityEntity datasBean:cities){
+        for(CitiesBean.DataEntity.OpenCityEntity datasBean:cities){
             count += datasBean.getCitySet().size();
         }
         return count;
@@ -59,7 +59,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (position == count) {
                 return WORD;
             }
-            List<CitiesBean.OpenCityEntity.CitySetEntity> addressList = cities.get(i).getCitySet();
+            List<CitiesBean.DataEntity.OpenCityEntity.CitySetEntity> addressList = cities.get(i).getCitySet();
             for (int j = 0; j < addressList.size(); j++) {
                 count++;
                 if (position == count) {
@@ -97,15 +97,15 @@ public class CitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             count++;
             if (position == count) {
                 WordViewHolder wordViewHolder = (WordViewHolder) holder;
-                CitiesBean.OpenCityEntity datasBean = cities.get(i);
+                CitiesBean.DataEntity.OpenCityEntity datasBean = cities.get(i);
                 wordViewHolder.textWord.setText(datasBean.getIndex());
             }
-            List<CitiesBean.OpenCityEntity.CitySetEntity> addressList = cities.get(i).getCitySet();
+            List<CitiesBean.DataEntity.OpenCityEntity.CitySetEntity> addressList = cities.get(i).getCitySet();
             for (int j = 0; j < addressList.size(); j++) {
                 count++;
                 if (position == count) {
                     CityViewHolder cityViewHolder = (CityViewHolder) holder;
-                    CitiesBean.OpenCityEntity.CitySetEntity addressListBean = addressList.get(j);
+                    CitiesBean.DataEntity.OpenCityEntity.CitySetEntity addressListBean = addressList.get(j);
                     cityViewHolder.textCity.setText(addressListBean.getName());
                     cityViewHolder.textCity.setTag(addressListBean.getFirstLetter().toUpperCase());
                 }

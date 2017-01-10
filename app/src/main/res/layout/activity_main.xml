@@ -3,9 +3,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
+    <RelativeLayout android:id="@+id/layout_title"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_height="54dp">
+
+        <ImageButton android:id="@+id/btn_close"
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:layout_centerVertical="true"
+                     android:background="@null"
+                     android:src="@drawable/location_close_btn_bg"/>
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="当前城市"
+            android:textColor="@color/citylist_location"/>
+
+    </RelativeLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="54dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -30,13 +57,11 @@
 
     </FrameLayout>
 
-
-
     <com.demo.joe.citylist.view.QuickIndexView
+        android:background="@color/white"
         android:id="@+id/quickIndexView"
-        android:layout_width="30dp"
+        android:layout_width="15dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="54dp"
         android:layout_alignParentRight="true"/>
 </RelativeLayout>
