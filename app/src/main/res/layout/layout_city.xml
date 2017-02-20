@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#fff">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="#fff"
+              android:focusable="true"
+              android:clickable="true"
+              android:foreground="?android:attr/selectableItemBackground">
 
     <View android:id="@+id/upline"
           android:layout_width="match_parent"
@@ -15,7 +18,7 @@
         android:id="@+id/textCity"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:gravity="center_vertical"
         android:tag="null"/>
 

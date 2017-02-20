@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
              ) {
             sidebar.add(city.getIndex());
         }
-        String[] s = null;
-        quickIndexView.setWords(sidebar.toArray(new String[sidebar.size()]));
-        //quickIndexView.setWords(s);
+        String[] s = {"#","A","B","C","D","E","F","G","H","I","J",
+            "K","L","M","N","O","P","Q","R","S","T",
+            "U","V","W","X","Y","Z"};
+        //quickIndexView.setWords(sidebar.toArray(new String[sidebar.size()]));
+        quickIndexView.setWords(s);
 
 
         adapter = new CitiesAdapter(this,citiesBean.getData().getOpenCity());

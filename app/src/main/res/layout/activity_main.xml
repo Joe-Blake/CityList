@@ -32,12 +32,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="54dp">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
         <RelativeLayout
             android:id="@+id/suspension_bar"
@@ -51,17 +52,24 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="snowbean"
                 android:textSize="12sp" />
         </RelativeLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
     <com.demo.joe.citylist.view.QuickIndexView
-        android:background="@color/white"
         android:id="@+id/quickIndexView"
-        android:layout_width="15dp"
+        android:layout_gravity="right"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="54dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:paddingTop="30dp"/>
+
+    </FrameLayout>
+
 </RelativeLayout>
