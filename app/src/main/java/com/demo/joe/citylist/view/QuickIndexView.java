@@ -23,7 +23,7 @@ public class QuickIndexView extends View {
 //            "U","V","W","X","Y","Z"};
 
     private int cellWidth;
-    private int cellHeight;
+    private float cellHeight;
     private float maxOffset;
     private Paint paint;
     private String[] words;
@@ -33,6 +33,8 @@ public class QuickIndexView extends View {
 
     //缩小touch有效范围
     private RectF mStartTouchingArea = new RectF();
+
+    private float mFirstItemBaseLineY;
 
     public void setWords(String[] words) {
         this.words = words;
@@ -63,15 +65,31 @@ public class QuickIndexView extends View {
 
         int height = MeasureSpec.getSize(heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
+
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        cellHeight = fontMetrics.bottom - fontMetrics.top;
+        cellWidth = (int)Math.max(cellWidth, paint.measureText(words[0]));
         float areaLeft = (width - cellWidth - getPaddingRight());
         float areaRight = width;
         float areaTop = (height - cellHeight) / 2;
         float areaBottom = areaTop + cellHeight;
+        //Log.i("area", areaLeft+" "+areaRight);
         mStartTouchingArea.set(
                 areaLeft,
                 areaTop,
                 areaRight,
                 areaBottom);
+
+        Log.i("top", fontMetrics.top + "");
+        Log.i("bottom", fontMetrics.bottom + "");
+        Log.i("dscent", fontMetrics.descent + "");
+        Log.i("ascent", fontMetrics.ascent + "");
+        Log.i("lending", fontMetrics.leading + "");
+        mFirstItemBaseLineY = (height / 2 - words.length * cellHeight / 2)
+                + (cellHeight / 2 - (fontMetrics.descent - fontMetrics.ascent) / 2)
+                - fontMetrics.ascent;
+
+        Log.i("frist", mFirstItemBaseLineY + "");
     }
 
     @Override
@@ -84,17 +102,31 @@ public class QuickIndexView extends View {
 
                 float scale = getScale(i);
                 int alphaScale = (i == curIndex) ? (255) : (int) (255 * (1-scale));
-                Log.i("wzj", alphaScale + "");
+                //Log.i("wzj", alphaScale + "");
                 paint.setColor(Color.parseColor("#E6454A"));
                 paint.setAlpha(alphaScale);
                 paint.setTextSize(textSize + textSize * scale);
                 //int x = (cellWidth - bound.width()) / 2;
                 float drawX = (getWidth() - getPaddingRight() - cellWidth / 2 - maxOffset *
                         scale) + DensityUtil.dip2px(getContext(), 35);
-                int y = i * cellHeight + (cellWidth + bound.width()) / 3 - DensityUtil.dip2px(getContext(), 15);//除数：宽3窄2
-                canvas.drawText(word, drawX, y, paint);
+                //float y = i * cellHeight + (cellWidth + bound.width()) / 3 - DensityUtil.dip2px(getContext(), 15);//除数：宽3窄2
+                float baseLineY = mFirstItemBaseLineY + cellHeight * i;
+                canvas.drawText(word, drawX, baseLineY, paint);
             }
         }
+    }
+
+    private int getSelectedIndex(float eventY) {
+        currentY = eventY - (getHeight()/2 - cellHeight /2);
+        if (currentY <= 0) {
+            return 0;
+        }
+
+        int index = (int) (currentY / this.cellHeight);
+        if (index >= this.words.length) {
+            index = this.words.length - 1;
+        }
+        return index;
     }
 
     private float getScale(int index) {
@@ -105,7 +137,7 @@ public class QuickIndexView extends View {
                     2)) / cellHeight;
             scale = 1 - distance * distance / 16;
             scale = Math.max(scale, 0);
-            //Log.i("scale", words[index] + ": " + scale);
+            Log.i("scale", words[index] + ": " + scale);
         }
         return scale;
     }
@@ -123,13 +155,13 @@ public class QuickIndexView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        int y = (int) event.getY();
+        float y = event.getY();
         float x = event.getX();
-        int index = y / cellHeight;
-        currentY = event.getY() - (getHeight()/2 - cellHeight*words.length /2);
+        currentY = y - (getHeight() / 2 - cellHeight * words.length / 2);
+        int index = (int) (currentY / cellHeight);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                if (words != null && index >= 0 && index < words.length && mStartTouchingArea.contains(x, y)) {
+                if (words != null && index >= 0 && index < words.length) {
                     if (index != curIndex) {
                         curIndex = index;
                         if (indexChangeListener != null) {
