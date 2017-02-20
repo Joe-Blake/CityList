@@ -116,19 +116,6 @@ public class QuickIndexView extends View {
         }
     }
 
-    private int getSelectedIndex(float eventY) {
-        currentY = eventY - (getHeight()/2 - cellHeight /2);
-        if (currentY <= 0) {
-            return 0;
-        }
-
-        int index = (int) (currentY / this.cellHeight);
-        if (index >= this.words.length) {
-            index = this.words.length - 1;
-        }
-        return index;
-    }
-
     private float getScale(int index) {
         float scale = 0;
 
