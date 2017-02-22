@@ -18,11 +18,7 @@ import com.demo.joe.citylist.utils.DensityUtil;
  */
 public class QuickIndexView extends View {
 
-//    private final static String[] WORDS = {"#","A","B","C","D","E","F","G","H","I","J",
-//            "K","L","M","N","O","P","Q","R","S","T",
-//            "U","V","W","X","Y","Z"};
-
-    private int cellWidth;
+    private float cellWidth;
     private float cellHeight;
     private float maxOffset;
     private Paint paint;
@@ -32,7 +28,7 @@ public class QuickIndexView extends View {
     private int textSize;
 
     //缩小touch有效范围
-    private RectF mStartTouchingArea = new RectF();
+    //private RectF mStartTouchingArea = new RectF();
 
     private float mFirstItemBaseLineY;
 
@@ -68,17 +64,17 @@ public class QuickIndexView extends View {
 
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         cellHeight = fontMetrics.bottom - fontMetrics.top;
-        cellWidth = (int)Math.max(cellWidth, paint.measureText(words[0]));
-        float areaLeft = (width - cellWidth - getPaddingRight());
-        float areaRight = width;
-        float areaTop = (height - cellHeight) / 2;
-        float areaBottom = areaTop + cellHeight;
-        //Log.i("area", areaLeft+" "+areaRight);
-        mStartTouchingArea.set(
-                areaLeft,
-                areaTop,
-                areaRight,
-                areaBottom);
+        cellWidth = Math.max(cellWidth, paint.measureText(words[0]));
+//        float areaLeft = (width - paint.measureText(words[0]) - getPaddingRight());
+//        float areaRight = width;
+//        float areaTop = (height - cellHeight) / 2;
+//        float areaBottom = areaTop + cellHeight;
+//        //Log.i("area", areaLeft+" "+areaRight);
+//        mStartTouchingArea.set(
+//                areaLeft,
+//                areaTop,
+//                areaRight,
+//                areaBottom);
 
         Log.i("top", fontMetrics.top + "");
         Log.i("bottom", fontMetrics.bottom + "");
